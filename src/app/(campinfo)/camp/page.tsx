@@ -1,11 +1,11 @@
 import CardPanel from "@/components/CardPanel";
-import VenueCatalog from "@/components/VenueCatalog";
-import getVenues from "@/libs/getVenues";
+import CampCatalog from "@/components/CampCatalog";
 import { Suspense } from "react";
 import { LinearProgress } from "@mui/material";
+import getCamps from "@/libs/getCamps";
 
-export default function Venue() {
-  const venues = getVenues();
+export default function Camp() {
+  const camps = getCamps();
 
   return (
     <main className="text-center p-5">
@@ -17,7 +17,7 @@ export default function Venue() {
           </p>
         }
       >
-        <VenueCatalog venuesJson={venues} />
+        <CampCatalog campsJson={camps} />
       </Suspense>
     </main>
   );

@@ -5,20 +5,20 @@ import Rating from "@mui/material/Rating";
 import React from "react";
 
 export default function Card({
-  venueName,
+  campName,
   imgSrc,
   rating,
   onRatingChange,
 }: {
-  venueName: string;
+  campName: string;
   imgSrc: string;
   rating?: number;
   onRatingChange?: Function;
 }) {
-  const ratingId = `${venueName} Rating`;
+  const ratingId = `${campName} Rating`;
 
   return (
-    <InteractiveCard contentName={venueName}>
+    <InteractiveCard contentName={campName}>
       <div className="w-full h-[70%] relative rounded-t-lg">
         <Image
           src={imgSrc}
@@ -27,7 +27,7 @@ export default function Card({
           className="object-cover rounded-t-lg"
         />
       </div>
-      <div className="w-full h-[30%] p-[10px] text-pink-500">{venueName}</div>
+      <div className="w-full h-[30%] p-[10px] text-pink-500">{campName}</div>
       <div>
       {onRatingChange ? (
         <Rating
@@ -40,7 +40,7 @@ export default function Card({
           }}
           onChange={(event, newValue) => {
             event.stopPropagation();
-            onRatingChange(venueName, newValue);
+            onRatingChange(campName, newValue);
           }}
         />
       ) : (

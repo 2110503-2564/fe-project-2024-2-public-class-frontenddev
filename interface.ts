@@ -1,4 +1,4 @@
-interface VenueItem {
+interface CampItem {
     _id: string,
     name: string,
     address: string,
@@ -12,16 +12,16 @@ interface VenueItem {
     id: string
   }
   
-  interface VenueJson {
+  interface CampJson {
     success: boolean,
     count: number,
     pagination: Object,
-    data: VenueItem[]
+    data: CampItem[]
   }
 
 interface BookingItem {
     nameLastname: string;
     tel: string;
-    venue: string;
+    camp: string;
     bookDate: string;
   }

@@ -1,15 +1,15 @@
 import Link from "next/link";
 import Card from "./Card";
 
-export default async function VenueCatalog({
-  venuesJson,
+export default async function CampCatalog({
+  campsJson,
 }: {
-  venuesJson: Promise<VenueJson>;
+  campsJson: Promise<CampJson>;
 }) {
-  const venueJsonReady = await venuesJson;
+  const campJsonReady = await campsJson;
   return (
     <>
-      Explore {venueJsonReady.count} models in our catalog
+      Explore {campJsonReady.count} in our catalog
       <div
         className="text-black"
         style={{
@@ -21,9 +21,9 @@ export default async function VenueCatalog({
           alignContent: "space-around",
         }}
       >
-        {venueJsonReady.data.map((venueItem: VenueItem) => (
-          <Link href={`/venue/${venueItem.id}`} className="w-1/5">
-            <Card venueName={venueItem.name} imgSrc={venueItem.picture} />
+        {campJsonReady.data.map((campItem: CampItem) => (
+          <Link href={`/camp/${campItem.id}`} className="w-1/5">
+            <Card campName={campItem.name} imgSrc={campItem.picture} />
           </Link>
         ))}
       </div>

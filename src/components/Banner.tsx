@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-export default function Banner () {
+export default function Banner() {
     const covers = ['/img/cover.jpg', '/img/cover2.jpg', '/img/cover3.jpg', '/img/cover4.jpg']
     const [index, setIndex] = useState(0)
     const router = useRouter()
@@ -32,7 +32,7 @@ export default function Banner () {
             font-semibold py-2 px-2 m-2 rounded z-30 absolute bottom-0 right-0
             hover:bg-cyan-600 hover:text-white hover:border-transparent'
             onClick={(e)=>{ e.stopPropagation();
-                router.push('/venue')
+                router.push('/camp')
              }}>Select Venue</button>
         </div>
     );
