@@ -27,7 +27,7 @@ export default function Card({
           className="object-cover rounded-t-lg"
         />
       </div>
-      <div className="w-full h-[30%] p-[10px] text-pink-500">{campName}</div>
+      <div className="w-full h-[30%] p-[10px] text-green-500">{campName}</div>
       <div>
       {onRatingChange ? (
         <Rating
