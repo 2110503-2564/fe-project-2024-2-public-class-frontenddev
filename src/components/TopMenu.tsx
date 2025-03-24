@@ -23,7 +23,7 @@ export default async function TopMenu () {
                     px-2 absoulute left-0 text-green-600 text-sm'>Sign-In</div></Link>
             }
             {
-                session? null:<Link href="/api/auth/register">
+                session? null:<Link href="/register">
                 <div className='flex items-center absolute left-20 h-full
                 px-2 text-green-600 text-sm'>Register</div></Link>
             }
