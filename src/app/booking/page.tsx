@@ -30,7 +30,6 @@ export default function Booking() {
     const campValue = bookingData.camp || cid || "";
 
     if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
-    if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
       const newBooking: BookingItem = {
         nameLastname: bookingData.nameLastname,
         tel: bookingData.tel,
@@ -50,7 +49,6 @@ export default function Booking() {
     } else {
       alert("Please fill in all required fields");
     }
-  }
   };
 
   return (
