@@ -76,20 +76,20 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
           </div>
         </div>
         <div className="sm:col-span-3">
-          <label htmlFor="Pick-Venue" className="block text-md text-left text-gray-600">
-            Pick Venue
+          <label htmlFor="Pick-Camp" className="block text-md text-left text-gray-600">
+            Pick Camp
           </label>
           <Select
             variant="standard"
-            name="venue"
-            id="venue"
+            name="camp"
+            id="camp"
             value={camp}
             onChange={handleCampChange}
             className="h-[2em] w-[200px]"
           >
-            <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>
-            <MenuItem value="Spark">Spark Space</MenuItem>
-            <MenuItem value="GrandTable">The Grand Table</MenuItem>
+            <MenuItem value="เขาชนไก่">เขาชนไก่</MenuItem>
+            <MenuItem value="แคมปิ้งริมวัง">แคมปิ้งริมวัง</MenuItem>
+            <MenuItem value="Mounakea Village">Mounakea Village</MenuItem>
           </Select>
         </div>
         <div className="sm:col-span-3">
