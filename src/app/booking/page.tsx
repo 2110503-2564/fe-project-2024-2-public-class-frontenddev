@@ -30,7 +30,6 @@ export default function Booking() {
 
   const makeBooking = () => {
     const campValue = bookingData.camp || cid || "";
-    const campValue = bookingData.camp || cid || "";
 
     if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
     if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
