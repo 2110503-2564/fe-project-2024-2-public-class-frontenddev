@@ -5,17 +5,18 @@ import { useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addBooking } from "@/redux/features/bookSlice";
-// import { BookingItem } from "../../../interface";
 
 export default function Booking() {
   const urlParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
 
   const cid = urlParams.get("cid");
+  const cid = urlParams.get("cid");
   
   const [bookingData, setBookingData] = useState({
     nameLastname: "",
     tel: "",
+    camp: cid || "",
     camp: cid || "",
     bookDate: "",
   });
@@ -29,11 +30,14 @@ export default function Booking() {
 
   const makeBooking = () => {
     const campValue = bookingData.camp || cid || "";
+    const campValue = bookingData.camp || cid || "";
 
+    if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
     if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
       const newBooking: BookingItem = {
         nameLastname: bookingData.nameLastname,
         tel: bookingData.tel,
+        camp: campValue,
         camp: campValue,
         bookDate: bookingData.bookDate,
       };
@@ -44,6 +48,7 @@ export default function Booking() {
       setBookingData({
         nameLastname: "",
         tel: "",
+        camp: cid || "",
         camp: cid || "",
         bookDate: "",
       });

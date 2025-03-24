@@ -20,13 +20,13 @@ export default async function RootLayout({
   children: React.ReactNode;
 }) {
 
-  const nextAuthSession = await getServerSession(authOptions)
+  const session = await getServerSession(authOptions)
   
   return (
     <html lang="en">
       <body className={inter.className}>
         <ReduxProvider>
-        <NextAuthProvider session={ nextAuthSession }>
+        <NextAuthProvider session={ session }>
         <TopMenu/>
         {children}
         </NextAuthProvider>
