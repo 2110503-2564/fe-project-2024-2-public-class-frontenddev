@@ -47,7 +47,7 @@ export default function CardPanel() {
                     mockVenueRepo.map((venueItem)=>(
                         <Link href={`/venue/${venueItem.vid}`} className="w-1/5">
                         <Card 
-                        venueName={venueItem.name}
+                        campName={venueItem.name}
                         imgSrc={venueItem.image}
                         rating={venueList.get(`${venueItem.name}`) || 0}
                         onRatingChange={(venue: string, rating: number) => dispatch({type: 'add', venueName: venue, rating})}

@@ -6,9 +6,9 @@ interface CampItem {
     province: string,
     postalcode: string,
     tel: string,
-    picture: string,
-    dailyrate: number,
+    region: string,
     __v: number,
+    picture: string,
     id: string
   }
   

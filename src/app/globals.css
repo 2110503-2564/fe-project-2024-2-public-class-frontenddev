@@ -90,7 +90,8 @@ body {
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
+  color: black;
+  background-color: rgb(208, 208, 208);
   margin-top: 50px;
 }
 

@@ -21,8 +21,7 @@ export default function Banner() {
             priority
             objectFit='cover'/>
             <div className={styles.bannerText}>
-                <h1 className='text-5xl font-medium'>where every event finds its venue</h1>
-                <h3>Find perfect place for party, wedding, etc. by yourself</h3>
+                <h1 className='text-5xl font-medium text-green-100'>where every event finds its venue</h1>
             </div>
             {
                 session? <div className='z-30 absolute top-5

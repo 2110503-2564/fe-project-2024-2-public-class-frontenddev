@@ -9,10 +9,10 @@ export default function BookingList() {
     return (
         <>
         {
-            bookItems.length == 0? 'No Venue Booking' :
+            bookItems.length == 0? 'No Camp Booking' :
             bookItems.map((bookItems)=> (
                 <div className="bg-slate-200 rounded px-5 mx-5 py-2 my-2" key={bookItems.nameLastname}>
-                    <div className="texl-xl">{bookItems.venue}</div>
+                    <div className="texl-xl">{bookItems.camp}</div>
                     <div className="text-sm">Name-Lastname {bookItems.nameLastname}</div>
                     <div className="text-sm">Tel {bookItems.tel}</div>
                     <div className="text-sm">Date {bookItems.bookDate}</div>
