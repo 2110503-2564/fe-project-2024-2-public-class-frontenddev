@@ -11,12 +11,10 @@ export default function Booking() {
   const dispatch = useDispatch<AppDispatch>();
 
   const cid = urlParams.get("cid");
-  const cid = urlParams.get("cid");
   
   const [bookingData, setBookingData] = useState({
     nameLastname: "",
     tel: "",
-    camp: cid || "",
     camp: cid || "",
     bookDate: "",
   });
@@ -37,7 +35,6 @@ export default function Booking() {
         nameLastname: bookingData.nameLastname,
         tel: bookingData.tel,
         camp: campValue,
-        camp: campValue,
         bookDate: bookingData.bookDate,
       };
 
@@ -48,12 +45,12 @@ export default function Booking() {
         nameLastname: "",
         tel: "",
         camp: cid || "",
-        camp: cid || "",
         bookDate: "",
       });
     } else {
       alert("Please fill in all required fields");
     }
+  }
   };
 
   return (
