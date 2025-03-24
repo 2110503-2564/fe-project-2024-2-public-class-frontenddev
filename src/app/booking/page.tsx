@@ -57,7 +57,7 @@ export default function Booking() {
         Reserve Campground
       </div>
 
-      <div className="w-full space-y-3">
+      <div className="w-full space-y-3 alignment-center">
         <div className="text-md text-left text-gray-600">Select your dates</div>
         <LocationDateReserve onChange={handleFormDataChange} />
       </div>

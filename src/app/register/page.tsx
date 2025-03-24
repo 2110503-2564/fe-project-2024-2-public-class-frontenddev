@@ -70,7 +70,7 @@ const RegisterPage = () => {
             </tr>
           </tbody>
         </table>
-        <button type="submit" className="mt-4 w-full bg-green-500 text-white py-2 rounded-md hover:bg-blue-600">Register</button>
+        <button type="submit" className="mt-4 w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600">Register</button>
       </form>
       {error && <p className="text-red-500">{error}</p>}
       {success && <div><p className="text-green-500">{success}</p> <Link href="/api/auth/signin">Please sign in - Click here</Link></div>}

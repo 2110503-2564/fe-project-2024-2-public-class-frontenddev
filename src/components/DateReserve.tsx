@@ -41,7 +41,7 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
   };
 
   return (
-    <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-10 py-5 justify-center">
+    <div className="bg-slate-100 rounded-lg space-x-5 space-y-2 w-fit px-[25%] py-5 justify-center">
       <div className="w-fit space-y-2">
         <div className="sm:col-span-3">
           <label htmlFor="Name-Lastname" className="block text-md text-left text-gray-600">
@@ -55,7 +55,7 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
               value={nameLastname}
               onChange={handleNameChange}
               placeholder="Your Name"
-              className="MuiInput-input"
+              className="MuiInput-input bg-white"
             />
           </div>
         </div>
@@ -71,7 +71,7 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
               value={contactNumber}
               onChange={handleContactChange}
               placeholder="Your Contact Number"
-              className="MuiInput-input"
+              className="MuiInput-input bg-white"
             />
           </div>
         </div>
