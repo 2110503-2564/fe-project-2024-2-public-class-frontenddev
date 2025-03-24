@@ -10,7 +10,7 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
   // State for form fields
   const [nameLastname, setNameLastname] = useState("");
   const [contactNumber, setContactNumber] = useState("");
-  const [venue, setVenue] = useState("");
+  const [camp, setCamp] = useState("");
   const [date, setDate] = useState<Dayjs | null>(null);
 
   // ส่งค่ากลับไปยัง parent (Booking)
@@ -18,10 +18,10 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
     onChange({
       nameLastname,
       tel: contactNumber,
-      venue,
+      camp,
       bookDate: date ? date.format("YYYY-MM-DD") : "",
     });
-  }, [nameLastname, contactNumber, venue, date]);
+  }, [nameLastname, contactNumber, camp, date]);
 
   // Event handlers
   const handleNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,8 +32,8 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
     setContactNumber(event.target.value);
   };
 
-  const handleVenueChange = (event: any) => {
-    setVenue(event.target.value);
+  const handleCampChange = (event: any) => {
+    setCamp(event.target.value);
   };
 
   const handleDateChange = (newDate: Dayjs | null) => {
@@ -83,8 +83,8 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
             variant="standard"
             name="venue"
             id="venue"
-            value={venue}
-            onChange={handleVenueChange}
+            value={camp}
+            onChange={handleCampChange}
             className="h-[2em] w-[200px]"
           >
             <MenuItem value="Bloom">The Bloom Pavilion</MenuItem>

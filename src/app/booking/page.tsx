@@ -11,12 +11,12 @@ export default function Booking() {
   const urlParams = useSearchParams();
   const dispatch = useDispatch<AppDispatch>();
 
-  const vid = urlParams.get("vid");
+  const cid = urlParams.get("cid");
   
   const [bookingData, setBookingData] = useState({
     nameLastname: "",
     tel: "",
-    venue: vid || "",
+    camp: cid || "",
     bookDate: "",
   });
 
@@ -28,13 +28,13 @@ export default function Booking() {
   };
 
   const makeBooking = () => {
-    const venueValue = bookingData.venue || vid || "";
+    const campValue = bookingData.camp || cid || "";
 
-    if (bookingData.nameLastname && bookingData.tel && venueValue && bookingData.bookDate) {
+    if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
       const newBooking: BookingItem = {
         nameLastname: bookingData.nameLastname,
         tel: bookingData.tel,
-        venue: venueValue,
+        camp: campValue,
         bookDate: bookingData.bookDate,
       };
 
@@ -44,7 +44,7 @@ export default function Booking() {
       setBookingData({
         nameLastname: "",
         tel: "",
-        venue: vid || "",
+        camp: cid || "",
         bookDate: "",
       });
     } else {
@@ -55,7 +55,7 @@ export default function Booking() {
   return (
     <main className="w-full max-w-lg mx-auto flex flex-col items-center space-y-6 text-black p-6 bg-white shadow-lg rounded-lg mt-4">
       <div className="text-xl font-semibold text-gray-800">
-        Reserve Event Room
+        Reserve Campground
       </div>
 
       <div className="w-full space-y-3">
@@ -64,11 +64,11 @@ export default function Booking() {
       </div>
 
       <button
-        name="Book Venue"
-        onClick={makeBooking}
+        name="Book Campground"
+        onClick={ makeBooking }
         className="w-full max-w-xs rounded-md bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-indigo-600 hover:to-sky-600 px-4 py-3 text-white font-semibold shadow-md transition-transform transform hover:scale-105"
       >
-        Book Venue
+        Book Campground
       </button>
     </main>
   );
