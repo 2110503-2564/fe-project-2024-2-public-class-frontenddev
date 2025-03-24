@@ -20,8 +20,9 @@ interface CampItem {
   }
 
 interface BookingItem {
+    _id: string;
     nameLastname: string;
     tel: string;
-    camp: string;
     bookDate: string;
-  }
+    camp: string;
+}

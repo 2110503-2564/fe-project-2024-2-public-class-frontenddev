@@ -5,6 +5,7 @@ import { useSearchParams } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addBooking } from "@/redux/features/bookSlice";
+import createBooking from "@/libs/createBooking";
 
 export default function Booking() {
   const urlParams = useSearchParams();
@@ -26,17 +27,19 @@ export default function Booking() {
     }));
   };
 
-  const makeBooking = () => {
+  const makeBooking = async () => {
     const campValue = bookingData.camp || cid || "";
 
     if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
+      const response = await createBooking(bookingData.nameLastname, bookingData.tel, new Date(bookingData.bookDate), campValue);
+
       const newBooking: BookingItem = {
+        _id: response.data._id,
         nameLastname: bookingData.nameLastname,
         tel: bookingData.tel,
-        camp: campValue,
         bookDate: bookingData.bookDate,
+        camp: campValue,
       };
-
       dispatch(addBooking(newBooking));
 
       // Reset form

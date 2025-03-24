@@ -87,9 +87,9 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
             onChange={handleCampChange}
             className="h-[2em] w-[200px]"
           >
-            <MenuItem value="เขาชนไก่">เขาชนไก่</MenuItem>
-            <MenuItem value="แคมปิ้งริมวัง">แคมปิ้งริมวัง</MenuItem>
-            <MenuItem value="Mounakea Village">Mounakea Village</MenuItem>
+            <MenuItem value="67bd6b566b1b2cdd7627dd98">เขาชนไก่</MenuItem>
+            <MenuItem value="67dff87484b243e9d15bf627">แคมปิ้งริมวัง</MenuItem>
+            <MenuItem value="67dff91784b243e9d15bf62a">Mounakea Village</MenuItem>
           </Select>
         </div>
         <div className="sm:col-span-3">
