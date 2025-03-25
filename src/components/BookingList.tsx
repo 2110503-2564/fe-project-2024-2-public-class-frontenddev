@@ -1,7 +1,7 @@
 "use client"
 import deleteBooking from "@/libs/deleteBooking"
 import getBooking from "@/libs/getBooking"
-import { removeBooking, updateBooking } from "@/redux/features/bookSlice"
+import { addBooking, removeBooking, updateBooking } from "@/redux/features/bookSlice"
 import { AppDispatch, useAppSelector } from "@/redux/store"
 import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
@@ -11,6 +11,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { Dayjs } from "dayjs"
 import updateBookingAPI from "@/libs/updateBooking"
 import getCamps from "@/libs/getCamps"
+import getBookings from "@/libs/getBookings"
 
 export default function BookingList() {
     const bookItems = useAppSelector((state)=>state.bookSlice.bookItems)
@@ -23,7 +24,7 @@ export default function BookingList() {
     const [camp, setCamp] = useState("")
     const [bookDate, setBookDate] = useState<Dayjs | null>(null)
 
-    const [ campItems, setCampItems] = useState(new Map<string, string>())
+    const [campItems, setCampItems] = useState(new Map<string, string>())
 
     useEffect( () => {
       const fetchData = async ()=> {
