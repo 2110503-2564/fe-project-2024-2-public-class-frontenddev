@@ -5,6 +5,7 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { Select, MenuItem, TextField } from "@mui/material";
 import dayjs, { Dayjs } from "dayjs";
+import getCamps from "@/libs/getCamps";
 
 export default function DateReserve({ onChange }: { onChange: Function }) {
   // State for form fields
@@ -12,6 +13,21 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
   const [contactNumber, setContactNumber] = useState("");
   const [camp, setCamp] = useState("");
   const [date, setDate] = useState<Dayjs | null>(null);
+
+  
+  const [ campItems, setCampItems] = useState(new Map<string, string>())
+
+  useEffect( () => {
+    const fetchData = async ()=> {
+      const response = await getCamps()
+      const mapItems: Map<string, string> = new Map();
+      response.data.map((campItem: CampItem) => {
+        mapItems.set(campItem._id, campItem.name)
+      })
+      setCampItems(mapItems)
+    }
+    fetchData();
+  }, [])
 
   // ส่งค่ากลับไปยัง parent (Booking)
   useEffect(() => {
@@ -87,9 +103,9 @@ export default function DateReserve({ onChange }: { onChange: Function }) {
             onChange={handleCampChange}
             className="h-[2em] w-[200px]"
           >
-            <MenuItem value="67bd6b566b1b2cdd7627dd98">เขาชนไก่</MenuItem>
-            <MenuItem value="67dff87484b243e9d15bf627">แคมปิ้งริมวัง</MenuItem>
-            <MenuItem value="67dff91784b243e9d15bf62a">Mounakea Village</MenuItem>
+            {Array.from(campItems.entries()).map(([key, value]) => (
+              <MenuItem key={key} value={key}>{value}</MenuItem>
+            ))}
           </Select>
         </div>
         <div className="sm:col-span-3">

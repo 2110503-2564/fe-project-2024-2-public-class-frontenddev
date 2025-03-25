@@ -1,15 +1,17 @@
 "use client"
 import deleteBooking from "@/libs/deleteBooking"
 import getBooking from "@/libs/getBooking"
-import { removeBooking } from "@/redux/features/bookSlice"
+import { removeBooking, updateBooking } from "@/redux/features/bookSlice"
 import { AppDispatch, useAppSelector } from "@/redux/store"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useDispatch } from "react-redux"
-import updateBooking from "@/libs/updateBooking"
 import { MenuItem, Select, TextField } from "@mui/material"
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers"
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs"
 import { Dayjs } from "dayjs"
+import updateBookingAPI from "@/libs/updateBooking"
+import getCamps from "@/libs/getCamps"
+
 export default function BookingList() {
     const bookItems = useAppSelector((state)=>state.bookSlice.bookItems)
     const dispatch = useDispatch<AppDispatch>()
@@ -20,6 +22,20 @@ export default function BookingList() {
     const [tel, setTel] = useState("")
     const [camp, setCamp] = useState("")
     const [bookDate, setBookDate] = useState<Dayjs | null>(null)
+
+    const [ campItems, setCampItems] = useState(new Map<string, string>())
+
+    useEffect( () => {
+      const fetchData = async ()=> {
+        const response = await getCamps()
+        const mapItems: Map<string, string> = new Map();
+        response.data.map((campItem: CampItem) => {
+          mapItems.set(campItem._id, campItem.name)
+        })
+        setCampItems(mapItems)
+      }
+      fetchData();
+    }, [])
 
     const handleRemoveBooking = async (bookItem: BookingItem) => {
         try {
@@ -43,13 +59,28 @@ export default function BookingList() {
 
     const handleUpdateData = async (bookItem: BookingItem) => {
         if(nameLastname && tel && camp && bookDate) {
-        await updateBooking(bookItem._id, {
-            nameLastname: nameLastname,
-            tel: tel,
-            camp: camp,
-            bookDate: bookDate.toDate()
+            try {
+                await updateBookingAPI(bookItem._id, {
+                    nameLastname,
+                    tel,
+                    camp,
+                    bookDate: bookDate.toDate()
+                });
+
+                const updatedBooking: BookingItem = {
+                    ...bookItem,
+                    nameLastname,
+                    tel,
+                    camp,
+                    bookDate: bookDate.format('YYYY-MM-DD')
+                };
+
+                dispatch(updateBooking(updatedBooking));
+                setIsEditing(false);
+            } catch (error) {
+                console.error('Failed to update booking:', error);
+                alert('Failed to update booking');
             }
-        ) 
         } else {
             alert("Please fill in all required fields");
         }
@@ -61,7 +92,7 @@ export default function BookingList() {
             bookItems.length == 0? 'No Camp Booking' :
             bookItems.map((bookItem)=> (
                 <div className="bg-slate-200 rounded px-5 mx-5 py-2 my-2" key={bookItem._id}>
-                    <div className="texl-xl">{bookItem.camp}</div>
+                    <div className="texl-xl">{bookItem.campName}</div>
                     <div className="text-sm">Name-Lastname {bookItem.nameLastname}</div>
                     <div className="text-sm">Tel {bookItem.tel}</div>
                     <div className="text-sm">Date {bookItem.bookDate}</div>
@@ -92,9 +123,11 @@ export default function BookingList() {
                                     onChange={(e) => setCamp(e.target.value)}
                                     className="h-[2em] w-[200px] bg-white"
                                 >
-                                    <MenuItem value="67bd6b566b1b2cdd7627dd98">เขาชนไก่</MenuItem>
-                                    <MenuItem value="67dff87484b243e9d15bf627">แคมปิ้งริมวัง</MenuItem>
-                                    <MenuItem value="67dff91784b243e9d15bf62a">Mounakea Village</MenuItem>
+                                    {Array.from(campItems.entries()).map(([key, value]) => (
+                                        <MenuItem key={key} value={key}>
+                                            {value}
+                                        </MenuItem>
+                                    ))}
                                 </Select>
                                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                                     <DatePicker className="bg-white" value={bookDate} onChange={(newValue) => setBookDate(newValue)}/>
@@ -103,7 +136,7 @@ export default function BookingList() {
 
                             <button
                                 name="Book Campground"
-                                onClick={ () => handleUpdateData(bookItem) }
+                                onClick={() => handleUpdateData(bookItem)}
                                 className="w-full max-w-xs rounded-md bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-indigo-600 hover:to-sky-600 px-4 py-3 text-white font-semibold shadow-md transition-transform transform hover:scale-105"
                             >
                                 Submit

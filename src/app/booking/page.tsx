@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import { addBooking } from "@/redux/features/bookSlice";
 import createBooking from "@/libs/createBooking";
+import getCamps from "@/libs/getCamps";
 
 export default function Booking() {
   const urlParams = useSearchParams();
@@ -20,6 +21,20 @@ export default function Booking() {
     bookDate: "",
   });
 
+  const [ campItems, setCampItems] = useState(new Map<string, string>())
+
+  useEffect( () => {
+    const fetchData = async ()=> {
+      const response = await getCamps()
+      const mapItems: Map<string, string> = new Map();
+      response.data.map((campItem: CampItem) => {
+        mapItems.set(campItem._id, campItem.name)
+      })
+      setCampItems(mapItems)
+    }
+    fetchData();
+  }, [])
+
   const handleFormDataChange = (data: Partial<BookingItem>) => {
     setBookingData(prev => ({
       ...prev,
@@ -30,10 +45,11 @@ export default function Booking() {
   const makeBooking = async () => {
     const campValue = bookingData.camp || cid || "";
 
-    if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate) {
+    if (bookingData.nameLastname && bookingData.tel && campValue && bookingData.bookDate ) {
       const response = await createBooking(bookingData.nameLastname, bookingData.tel, new Date(bookingData.bookDate), campValue);
 
       const newBooking: BookingItem = {
+        campName: campItems.get(campValue) || "",
         _id: response.data._id,
         nameLastname: bookingData.nameLastname,
         tel: bookingData.tel,
@@ -62,7 +78,7 @@ export default function Booking() {
 
       <div className="w-full space-y-3 alignment-center">
         <div className="text-md text-left text-gray-600">Select your dates</div>
-        <LocationDateReserve onChange={handleFormDataChange} />
+        <LocationDateReserve onChange={handleFormDataChange}/>
       </div>
 
       <button
