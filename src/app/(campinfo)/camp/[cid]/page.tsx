@@ -21,11 +21,21 @@ export default async function CampDetailPage({
           />
           <div className="text-md text-gray-700 space-y-1">
             <div className="font-bold text-2xl">{campDetail.data.name}</div>
-            <span className="inline underline font-light text-xl font-serif">ที่ตั้ง: </span><div className="text-xl">{campDetail.data.address}</div>
-            <span className="inline underline font-light text-xl font-serif">อำเภอ: </span><div className="text-xl">{campDetail.data.district}</div>
-            <span className="inline underline font-light text-xl font-serif">จังหวัด: </span><div className="text-xl">{campDetail.data.province}</div>
-            <span className="inline underline font-light text-xl font-serif">รหัสไปรษณีย์: </span><div className="text-xl">{campDetail.data.postalcode}</div>
-            <span className="inline underline font-light text-xl font-serif">เบอร์โทรศัพท์: </span><div className="mt-2 font-semibold text-xl">{campDetail.data.tel}</div>
+            <div className="text-xl">
+              <span className="inline underline font-light font-serif">ที่ตั้ง: </span>{campDetail.data.address}
+            </div>
+            <div className="text-xl">
+              <span className="inline underline font-light font-serif">อำเภอ: </span>{campDetail.data.district}
+            </div>
+            <div className="text-xl">
+              <span className="inline underline font-light font-serif">จังหวัด: </span>{campDetail.data.province}
+            </div>
+            <div className="text-xl">
+              <span className="inline underline font-light font-serif">รหัสไปรษณีย์: </span>{campDetail.data.postalcode}
+            </div>
+            <div className="text-xl">
+              <span className="inline underline font-light font-serif">เบอร์โทรศัพท์: </span><span className="mt-2 font-semibold">{campDetail.data.tel}</span>
+            </div>
           </div>
         </div>
       </div>
