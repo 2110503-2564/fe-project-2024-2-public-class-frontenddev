@@ -21,7 +21,7 @@ export default function Banner() {
             priority
             objectFit='cover'/>
             <div className={styles.bannerText}>
-                <h1 className='px-5 py-8 rounded-2xl outline-1 outline-gray-300 inline-block text-6xl font-medium text-blue-900 bg-pink-100 bg-opacity-25 backdrop-blur-sm'>Find The Right Place For Camping</h1>
+                <h1 className='px-5 py-8 rounded-2xl outline-1 outline-gray-300 inline-block text-6xl font-medium text-emerald-700 bg-pink-100 bg-opacity-25 backdrop-blur-sm'>Find The Right Place For Camping</h1>
             </div>
             {
                 session? <div className='z-30 absolute top-5
