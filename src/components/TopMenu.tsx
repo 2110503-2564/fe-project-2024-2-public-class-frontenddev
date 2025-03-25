@@ -1,13 +1,18 @@
+'use client'
+
 import styles from './topmenu.module.css'
 import Image from 'next/image'
 import TopMenuItem from './TopMenuItem';
-import { getServerSession } from 'next-auth';
+import { getServerSession, Session } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/authOptions';
 import { Link } from '@mui/material';
+import { AppDispatch } from '@/redux/store';
+import { useDispatch } from 'react-redux';
+import { clearBookings } from '@/redux/features/bookSlice';
 
-export default async function TopMenu () {
+export default function TopMenu ({session}: {session: Session | null}) {
 
-    const session = await getServerSession(authOptions)
+    const dispatch = useDispatch<AppDispatch>()
 
     return (
         <div className={styles.menucontainer}>
@@ -17,7 +22,8 @@ export default async function TopMenu () {
             {
                 session? <Link href="/api/auth/signout">
                     <div className='flex items-center absolute left-0 h-full
-                    px-2 absoulute left-0 text-green-600 text-sm'>Sign-Out of {session.user?.name}</div></Link>
+                    px-2 absoulute left-0 text-green-600 text-sm'
+                    onClick={ () => dispatch(clearBookings()) }>Sign-Out of {session.user?.name}</div></Link>
                 :<Link href="/api/auth/signin">
                     <div className='flex items-center absolute left-0 h-full
                     px-2 absoulute left-0 text-green-600 text-sm'>Sign-In</div></Link>

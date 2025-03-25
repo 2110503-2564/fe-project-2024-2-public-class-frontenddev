@@ -12,12 +12,12 @@ import { Dayjs } from "dayjs"
 import updateBookingAPI from "@/libs/updateBooking"
 import getCamps from "@/libs/getCamps"
 import getBookings from "@/libs/getBookings"
+import { Session } from "next-auth"
+import { useSession } from "next-auth/react"
 
 export default function BookingList() {
     const bookItems = useAppSelector((state)=>state.bookSlice.bookItems)
     const dispatch = useDispatch<AppDispatch>()
-
-    const [isEditing, setIsEditing] = useState(false);
 
     const [nameLastname, setNameLastname] = useState("")
     const [tel, setTel] = useState("")
@@ -25,22 +25,48 @@ export default function BookingList() {
     const [bookDate, setBookDate] = useState<Dayjs | null>(null)
 
     const [campItems, setCampItems] = useState(new Map<string, string>())
+    const [editingId, setEditingId] = useState<string | null>(null)
 
-    useEffect( () => {
-      const fetchData = async ()=> {
-        const response = await getCamps()
-        const mapItems: Map<string, string> = new Map();
-        response.data.map((campItem: CampItem) => {
-          mapItems.set(campItem._id, campItem.name)
-        })
-        setCampItems(mapItems)
-      }
-      fetchData();
-    }, [])
+    useEffect(() => {
+        const fetchAllData = async () => {
+            
+            const campResponse = await getCamps();
+            const mapItems: Map<string, string> = new Map();
+            campResponse.data.map((campItem: CampItem) => {
+                mapItems.set(campItem._id, campItem.name);
+            });
+            setCampItems(mapItems);
+
+            if (bookItems.length === 0) {
+                try {
+                    // Fetch camps first
+                    const bookingsResponse = await getBookings();
+                    if (bookingsResponse.data) {
+                        console.log(bookingsResponse.data.length)
+                        bookingsResponse.data.forEach((booking: any) => {
+                            const bookingWithCampName: BookingItem = {
+                                _id: booking._id,
+                                nameLastname: booking.nameLastname,
+                                tel: booking.tel,
+                                camp: booking.camp._id,
+                                bookDate: booking.bookingDate,
+                                campName: mapItems.get(booking.camp._id) || ''
+                            };
+                            dispatch(addBooking(bookingWithCampName));
+                        });
+                    }
+                } catch (error) {
+                    console.error('Failed to fetch data:', error);
+                }       
+            }
+        };
+
+        fetchAllData();
+    }, [bookItems.length]);
 
     const handleRemoveBooking = async (bookItem: BookingItem) => {
         try {
-            await deleteBooking(bookItem._id);
+            await deleteBooking(bookItem._id); 
             dispatch(removeBooking(bookItem))
         } catch (error) {
             console.error('Failed to delete booking:', error);
@@ -59,29 +85,24 @@ export default function BookingList() {
     }
 
     const handleUpdateData = async (bookItem: BookingItem) => {
-        if(nameLastname && tel && camp && bookDate) {
-            try {
-                await updateBookingAPI(bookItem._id, {
-                    nameLastname,
-                    tel,
-                    camp,
-                    bookDate: bookDate.toDate()
-                });
+        if(nameLastname && tel && camp && bookDate && campItems.get(camp) != '') {
+            await updateBookingAPI(bookItem._id, {
+                nameLastname: nameLastname,
+                tel: tel,
+                camp: camp,
+                bookDate: bookDate.toDate()
+            });
 
-                const updatedBooking: BookingItem = {
-                    ...bookItem,
-                    nameLastname,
-                    tel,
-                    camp,
-                    bookDate: bookDate.format('YYYY-MM-DD')
-                };
+            const updatedBooking: BookingItem = {
+                _id: bookItem._id,
+                nameLastname: nameLastname,
+                tel: tel,
+                camp: camp,
+                bookDate: bookDate.format('YYYY-MM-DD'),
+                campName: campItems.get(camp) || ""
+            };
 
-                dispatch(updateBooking(updatedBooking));
-                setIsEditing(false);
-            } catch (error) {
-                console.error('Failed to update booking:', error);
-                alert('Failed to update booking');
-            }
+            dispatch(updateBooking(updatedBooking));
         } else {
             alert("Please fill in all required fields");
         }
@@ -98,20 +119,32 @@ export default function BookingList() {
                     <div className="text-sm">Tel {bookItem.tel}</div>
                     <div className="text-sm">Date {bookItem.bookDate}</div>
                     <div className="flex flex-row gap-2 m-1">
-                        <button className="block rounded-md bg-sky-600 hover:bg-indigo-600
-                        px-3 py-1 text-white shadow-sm" onClick={() => {setIsEditing(!isEditing); handleFetchData(bookItem);}}>
+                        <button 
+                            className="block rounded-md bg-sky-600 hover:bg-indigo-600 px-3 py-1 text-white shadow-sm" 
+                            onClick={() => {
+                                if(!editingId){
+                                    setEditingId(bookItem._id);
+                                    handleFetchData(bookItem);98
+                                } else {
+                                    if(editingId == bookItem._id){
+                                        setEditingId(null);
+                                    } else {
+                                        setEditingId(bookItem._id);
+                                        handleFetchData(bookItem);
+                                    }
+                                }
+                            }}>
                             Edit Booking
                         </button>
 
                         <button className="block rounded-md bg-sky-600 hover:bg-indigo-600
-                        px-3 py-1 text-white shadow-sm" onClick={() => handleRemoveBooking(bookItem)}>
+                        px-3 py-1 text-white shadow-sm" onClick={() => {handleRemoveBooking(bookItem);}}>
                             Remove Booking
                         </button>
                     </div>
 
-                    
                     {
-                        isEditing ? 
+                        editingId === bookItem._id ? 
                         <div className="items-center justify-center flex flex-col m-5 bg-white rounded-md p-5 w-[30%]">
                             <div className="flex flex-col gap-2 items-center m-2">
                                 <TextField className="bg-white" label="Name-Lastname" value={nameLastname} onChange={(e) => setNameLastname(e.target.value)} />
@@ -137,7 +170,10 @@ export default function BookingList() {
 
                             <button
                                 name="Book Campground"
-                                onClick={() => handleUpdateData(bookItem)}
+                                onClick={() => {
+                                    handleUpdateData(bookItem);
+                                    setEditingId(null);  // Close the form after update
+                                }}
                                 className="w-full max-w-xs rounded-md bg-gradient-to-r from-sky-500 to-indigo-500 hover:from-indigo-600 hover:to-sky-600 px-4 py-3 text-white font-semibold shadow-md transition-transform transform hover:scale-105"
                             >
                                 Submit

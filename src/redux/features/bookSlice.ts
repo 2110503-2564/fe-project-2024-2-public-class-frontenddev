@@ -24,23 +24,26 @@ export const bookSlice = createSlice({
         },
         removeBooking: (state, action:PayloadAction<BookingItem>)=>{
             const remainItems = state.bookItems.filter(obj => {
-                return ((obj.nameLastname !== action.payload.nameLastname) ||
+                return (((obj.nameLastname !== action.payload.nameLastname) ||
                 (obj.tel !== action.payload.tel) ||
                 (obj.camp !== action.payload.camp) ||
-                (obj.bookDate !== action.payload.bookDate))
+                (obj.bookDate !== action.payload.bookDate)))
             })
             state.bookItems = remainItems
         },
         updateBooking: (state, action:PayloadAction<BookingItem>)=>{
             const existingIndex = state.bookItems.findIndex(
-                (item) => item.camp === action.payload.camp && item.bookDate === action.payload.bookDate
+                (item) => item._id === action.payload._id
             );
             if (existingIndex !== -1) {
                 state.bookItems[existingIndex] = action.payload;
             }
+        },
+        clearBookings: (state) => {
+            state.bookItems = [];
         }
     }
 })
 
-export const { addBooking, removeBooking, updateBooking } = bookSlice.actions
+export const { addBooking, removeBooking, updateBooking, clearBookings } = bookSlice.actions
 export default bookSlice.reducer
