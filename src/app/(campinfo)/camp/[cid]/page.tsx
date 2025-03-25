@@ -21,7 +21,7 @@ export default async function CampDetailPage({
           />
           <div className="text-md text-gray-700 space-y-1">
             <div className="font-bold text-2xl">{campDetail.data.name}</div>
-            <div className="text-xl">{campDetail.data.address}</div>
+            <span className="underline font-light text-xl font-serif">ที่ตั้ง: </span><div className="text-xl">{campDetail.data.address}</div>
             <div className="text-xl">{campDetail.data.district}</div>
             <div className="text-xl">{campDetail.data.province}</div>
             <div className="text-xl">{campDetail.data.postalcode}</div>
