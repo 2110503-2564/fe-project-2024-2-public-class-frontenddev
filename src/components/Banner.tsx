@@ -25,7 +25,7 @@ export default function Banner() {
             </div>
             {
                 session? <div className='z-30 absolute top-5
-                right-10 text-3xl font-mono font-light text-white bg-black px-3 py-4 bg-opacity-80 rounded-md'>Welcome {session.user?.name}</div>:null
+                right-10 text-3xl font-mono font-light text-white bg-black px-3 py-4 bg-opacity-60 rounded-md'>Welcome {session.user?.name}</div>:null
             }
             <button className='bg-white text-green-600 border-2 border-green-600
             font-semibold py-2 px-2 m-2 rounded z-30 absolute bottom-0 right-0
